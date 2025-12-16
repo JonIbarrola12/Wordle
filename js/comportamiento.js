@@ -6,32 +6,31 @@ document.addEventListener("DOMContentLoaded", function() {
         req.open('GET','https://random-word-api.herokuapp.com/word?lang=es&length=5',false);
         req.send()
         palabra = JSON.parse(req.responseText)
-        console.log(palabra[0])
-        return palabra[0]
+        console.log(palabra[0].toLowerCase())
+        return palabra[0].toLowerCase()
     }    
     //https://rae-api.com/api/random?max_length=5&min_length=5
     function validarPalabra(palabra) {
-    const req = new XMLHttpRequest();
-    req.open(
-        "GET",
-        `https://es.wiktionary.org/w/api.php?action=query&titles=${palabra}&format=json&origin=*`,
-        false
-    );
-    req.send();
-    try {
-        const data = JSON.parse(req.responseText);
-        if (!data.query || !data.query.pages) return false;
-        const pages = data.query.pages;
-        const pageId = Object.keys(pages)[0];
-        console.log(Object.keys(pages)[0])
-        return pageId !== "-1";
-    } catch (e) {
-        return false;
+        const req = new XMLHttpRequest();
+        req.open(
+            "GET",
+            `https://es.wiktionary.org/w/api.php?action=query&titles=${palabra}&format=json&origin=*`,
+            false
+        );
+        req.send();
+        try {
+            const data = JSON.parse(req.responseText);
+            if (!data.query || !data.query.pages) return false;
+            const pages = data.query.pages;
+            const pageId = Object.keys(pages)[0];
+            console.log(Object.keys(pages)[0])
+            return pageId !== "-1";
+        } catch (e) {
+            return false;
+        }
     }
-}
 
     let palabra = cargaPalabra();
-    palabra = palabra.toLowerCase();
     while (!validarPalabra(palabra)){
         palabra = cargaPalabra();
     }
@@ -57,7 +56,6 @@ document.addEventListener("DOMContentLoaded", function() {
     let filaActual = 0;
     let columnaActual = 0;
 
-    let intento = "";
     const filas = 6;
     const columnas = 5;
     const titulo = document.getElementById("titulo");
@@ -102,15 +100,18 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function checkWord() {
-        if (columnaActual < columnas) return; // palabra incompleta
+        if (columnaActual < columnas) return;
 
         const celdas = document.querySelectorAll(".celda");
-        let guess = "";
+        let intento = "";
 
         for (let i = 0; i < columnas; i++) {
-            intento += celdas[filaActual * columnas + i].textContent.toLowerCase();
+            intento += celdas[filaActual * columnas + i]
+                .textContent
+                .toLowerCase();
         }
 
+        intento = intento.trim();
        // VALIDAR SI LA PALABRA EXISTE
         if (!validarPalabra(intento)) {
             mostrarError("La palabra no existe. Intenta otra.");
