@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         intento = intento.trim();
-       // VALIDAR SI LA PALABRA EXISTE
+       // Validar si la palabra existe
         if (!validarPalabra(intento)) {
             mostrarError("La palabra no existe. Intenta otra.");
             // Limpiar fila actual
@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
 
-        // COMPROBAR SI SE HA ADIVINADO
+        // Comprobar si se ha adivinado
         if (intento === palabra) {
             mostrarMensaje("¡Has adivinado la palabra!");
             return; // detener avance de filas
@@ -174,13 +174,13 @@ function mostrarError(texto) {
     // Aparecer animado
     requestAnimationFrame(() => {
         mensaje.style.opacity = "1";
-        mensaje.style.bottom = "40px"; // sube un poco al aparecer
+        mensaje.style.bottom = "40px"; 
     });
 
     // Desaparecer después de 2 segundos
     setTimeout(() => {
         mensaje.style.opacity = "0";
-        mensaje.style.bottom = "20px"; // baja al desaparecer
+        mensaje.style.bottom = "20px"; 
         mensaje.addEventListener("transitionend", () => mensaje.remove());
     }, 2000);
 }
@@ -208,13 +208,13 @@ function mostrarMensaje(texto) {
     mensaje.style.marginBottom = "20px";
     overlay.appendChild(mensaje);
 
-    // Botón reinicio
+    // Boton de reinicio
     const btn = document.createElement("button");
     btn.textContent = "Jugar de nuevo";
     btn.style.fontSize = "1.2rem";
     btn.style.padding = "10px 20px";
     btn.onclick = () => {
-        location.reload(); // recarga la página
+        location.reload(); 
     };
     overlay.appendChild(btn);
 
